@@ -1,0 +1,11 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: wandering
+chapters:
+- file: mc/static
+- file: static
+- file: mc/mobile
+- file: mobile
+- file: independence
