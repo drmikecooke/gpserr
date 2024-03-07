@@ -1,0 +1,603 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Wandering thoughts &#8212; GPS errorology</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'wandering';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Stationary path Monte Carlo" href="mc/static.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/west.svg" class="logo__image only-light" alt="GPS errorology - Home"/>
+    <script>document.write(`<img src="_static/west.svg" class="logo__image only-dark" alt="GPS errorology - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    Wandering thoughts
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="mc/static.html">Stationary path Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static.html">Stationary GPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mc/mobile.html">Moving path Monte Carlo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mobile.html">Mobile errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="independence.html">Independence of variables</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fwandering.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/wandering.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Wandering thoughts</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-niggle">The niggle</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fractal-effects">Fractal effects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accumulated-gps-errors">Accumulated GPS errors</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#an-image-of-west">An image of “West”:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#east">East:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-ideas">Other ideas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plan-of-study">Plan of study</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#in-the-satchel">In the satchel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#on-the-bench">On the bench</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="wandering-thoughts">
+<h1>Wandering thoughts<a class="headerlink" href="#wandering-thoughts" title="Permalink to this heading">#</a></h1>
+<p>In the past couple of years I have been going on a variety of walks, guided by a route-map on my mobile phone. I pay a monthly subscription to access these features at <a class="reference external" href="https://explore.osmaps.com/"></a>, and aided by the cheaper fares that come with age. There is an app associated with Android (what I use) or for the posher Apple systems. Recently the app seems to have been upgraded to enable route creation on the phone - before I had to use my desktop through the web browser.</p>
+<section id="the-niggle">
+<h2>The niggle<a class="headerlink" href="#the-niggle" title="Permalink to this heading">#</a></h2>
+<p>This is all great, but I have noticed over time is that the distance of the routes as-prepared was shorter than the GPS-derived distance plotted as I followed the route. Off the bat I came up with a number of explanations (while on said walks, in bed, in the bath, staring into space, etc.). The main possibilities/contributions:</p>
+<section id="fractal-effects">
+<h3>Fractal effects<a class="headerlink" href="#fractal-effects" title="Permalink to this heading">#</a></h3>
+<p>Maps provide a smoothed-out version of reality. What seems a straight path can be quite twisty when you actually come to perambulate it. The situation is even worse from the ant-perspective, climbing or avoiding twigs and so on. Continuing as an <a class="reference external" href="https://www.imdb.com/title/tt0050539/">incredibile shrinking person</a> we see cells, atoms, electrons, neutrons, protons, quarks, … And what is “reality” anyway? We could, on the other hand, expand our perspective: the solar system, galaxy, cluster, supercluster, filament.</p>
+<p>This effect would tend to make the “actual” path longer, but I don’t think it is the main ingredient.</p>
+</section>
+<section id="accumulated-gps-errors">
+<h3>Accumulated GPS errors<a class="headerlink" href="#accumulated-gps-errors" title="Permalink to this heading">#</a></h3>
+<p>As with all measurements, GPS plotting involves an approximation and therefore error. When using such measurements it is important to understand as best you can the <a class="reference external" href="https://www.bbc.co.uk/bitesize/topics/zqkk7ty/articles/zccqqfr#zr3bbqt">accuracy and precision</a> of the measurements.</p>
+<p>According <a class="reference external" href="https://www.gps.gov/systems/gps/performance/accuracy/">“Official U.S. government information about the Global Positioning System (GPS)”</a>: “GPS-enabled smartphones are typically accurate to within a 4.9 m (16 ft.) radius under open sky (<a class="reference external" href="https://www.ion.org/publications/abstract.cfm?articleID=13079">VIEW SOURCE AT ION.ORG</a>). However, their accuracy worsens near buildings, bridges, and trees.”</p>
+<p>A simple test I carried out was to put my phone on a window-sill (reducing the accuracy, but I didn’t want to leave it outside, away from buildings … , where someone would likely pick it up, and I don’t have a garden). I tried two different windows pointing in different directions:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Direction</p></th>
+<th class="text-right head"><p>Distance</p></th>
+<th class="text-right head"><p>Duration</p></th>
+<th class="text-right head"><p>Moving Time</p></th>
+<th class="text-right head"><p>Avg. Speed</p></th>
+<th class="text-right head"><p>Total Ascent</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>“East”</p></td>
+<td class="text-right"><p>4.97km</p></td>
+<td class="text-right"><p>01:52:47</p></td>
+<td class="text-right"><p>01:52:47</p></td>
+<td class="text-right"><p>2.65kph</p></td>
+<td class="text-right"><p>0.00m</p></td>
+</tr>
+<tr class="row-odd"><td><p>“West”</p></td>
+<td class="text-right"><p>5.86km</p></td>
+<td class="text-right"><p>01:19:58</p></td>
+<td class="text-right"><p>01:19:58</p></td>
+<td class="text-right"><p>4.40kph</p></td>
+<td class="text-right"><p>3.39m</p></td>
+</tr>
+</tbody>
+</table>
+<section id="an-image-of-west">
+<h4>An image of “West”:<a class="headerlink" href="#an-image-of-west" title="Permalink to this heading">#</a></h4>
+<p><img alt="West" src="_images/west.svg" /></p>
+<p>It’s prettier on the app, but I don’t want random people knowing exactly where I live! The scale is metres. The standard deviation is of the order of tens of metres (<span class="math notranslate nohighlight">\(\sigma_x=28m,\sigma_y=12m\)</span>), rather than 5m. I rendered the image and derived the statistics by downloading a “gpx” file, and performing some calculations.</p>
+<p>There are 820 data points, so the normal probability to exceed <span class="math notranslate nohighlight">\(3\sigma\)</span> is around 0.2%, or 1.65 events. In the <span class="math notranslate nohighlight">\(x\)</span> direction there are about two such events. There are about three or four “large” deviations in <span class="math notranslate nohighlight">\(y\)</span>. We may suspect that the tails are somewhat chubby (but see below), although there is not enough data to make a true judgement. This could be due to variability in accuracy, e.g., the number of satellites overhead, weather, etc.</p>
+<p>I have gone away and thought about why the “East–West” deviation is larger than the “North-South”. Initially my guess was that it was an intrinsic thing, such as a difference between latitude and longitude, maybe how they are mapped onto <span class="math notranslate nohighlight">\(x\)</span>-<span class="math notranslate nohighlight">\(y\)</span> coordinates. Or maybe later the positioning of the satellites. After a kip, it occurred to me that the problem was probably due to the window placement cutting off good signal access. Facing west one is cut off from good coverage in the east direction, possibly also explaining the large deviation event (and also the larger number of near 3<span class="math notranslate nohighlight">\(\sigma\)</span> events on the right). This probably also deals, mostly, with the chubby tail problem.</p>
+</section>
+<section id="east">
+<h4>East:<a class="headerlink" href="#east" title="Permalink to this heading">#</a></h4>
+<p><img alt="East" src="_images/east.svg" /></p>
+<p>Above is the rendering for the “East” window experiment, performed after the above considerations of direction differences (“anisotropy”, as it’s called in the trade). This time the large deviations are westward. The standard deviations are: <span class="math notranslate nohighlight">\(\sigma_x=60m,\sigma_y=30m\)</span>. With these larger values the total diagram is within the 3<span class="math notranslate nohighlight">\(\sigma\)</span> limits, but there seems to be confusion about where the centre is? Could this explain the larger <span class="math notranslate nohighlight">\(\sigma\)</span> values? For reference, there are 867 data points. Although the experiment was longer (see table), the data points don’t seem to have registered at a steady rate. They are more frequent for the “West” experiment. Why?</p>
+<p>I tried the same test with a <a class="reference external" href="https://play.google.com/store/apps/details?id=eu.basicairdata.graziano.gpslogger">GPS logging app</a>. Although it initially showed movement, it quickly worked out the phone wasn’t moving and reported that the speed was 0kph. This no doubt requires extra code, which the OS team or its subcontractors are not willing to include since they also have to cope with presenting other stuff like maps, saving activities, etc. The GPS logger only saves the data and presents simple thumbnail sketches of the route shape (even simpler than my x,y graph above). Apps are slowly developed and when a bell is added, a whistle often ceases to function correctly. The pointer on the OS app sometimes rotates to show the direction of travel, sometimes it doesn’t. The “compass” section doesn’t work at all for me - I guess I don’t have the appropriate hardware on my cheapy device from China, which presumably reports <a class="reference external" href="https://www.12339.gov.cn/">here</a>.</p>
+<p><em>I think accumulated GPS error is the major source of the problem on the OS app.</em></p>
+</section>
+</section>
+<section id="other-ideas">
+<h3>Other ideas<a class="headerlink" href="#other-ideas" title="Permalink to this heading">#</a></h3>
+<p>I also notice that there is some effect from GPS devices attempting to compensate for loss of signal/accuracy by extrapolating based on present movement. Partly some of such “compensations” are carried out in the GPS chip, rather than the software code. There also may be corrections needed from the model used to convert from latitude and longitude to flatish earth map coordinates.</p>
+</section>
+</section>
+<section id="plan-of-study">
+<h2>Plan of study<a class="headerlink" href="#plan-of-study" title="Permalink to this heading">#</a></h2>
+<section id="in-the-satchel">
+<h3>In the satchel<a class="headerlink" href="#in-the-satchel" title="Permalink to this heading">#</a></h3>
+<p>Before writing this introduction (or the window experiments), I performed some calculations based on the normal “Gaussian” distribution. In particular, I carried out some Monte Carlo simulations of the window experiment, and for the reduction in error when one is plotting a steadily moving object. I also made predictions for the mean distance apparently travelled for both situations, giving the average error per GPS evaluation. For the moving object, this involves modified Bessel functions, in case that is a worry to you. Or you can take my word for it. This ends up in a plot of the excess distance (<span class="math notranslate nohighlight">\(y\)</span>-axis) for steps (<span class="math notranslate nohighlight">\(x\)</span>-axis) in units of <span class="math notranslate nohighlight">\(\sigma\)</span>, the equal standard deviation in the <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> directions:</p>
+<p><img alt="mobile" src="_images/mobile.svg" /></p>
+<p>The dots show the Monte Carlo results, and the line is the Bessel prediction.</p>
+<p>Since we were just trying to understand the effect, we took no account of the different errors in different projections from latitude/longitude on the <span class="math notranslate nohighlight">\(x\)</span>- and <span class="math notranslate nohighlight">\(y\)</span>-axes. This would make the graph depend on the direction of motion.</p>
+</section>
+<section id="on-the-bench">
+<h3>On the bench<a class="headerlink" href="#on-the-bench" title="Permalink to this heading">#</a></h3>
+<p>Clearly the non-isotropy of the errors should be accommodated. Also, so far I have been looking at mean values where the correlations arising between the distances between two successive steps (due to a shared evaluation point) do not contribute. However, these effects are likely to affect standard deviations of paths.</p>
+</section>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "executablebooks/jupyter-book",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="mc/static.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Stationary path Monte Carlo</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-niggle">The niggle</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fractal-effects">Fractal effects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accumulated-gps-errors">Accumulated GPS errors</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#an-image-of-west">An image of “West”:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#east">East:</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-ideas">Other ideas</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plan-of-study">Plan of study</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#in-the-satchel">In the satchel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#on-the-bench">On the bench</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Mike Cooke
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 07/03/2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
